@@ -21,8 +21,16 @@ extension CLLocationCoordinate2D {
 struct ContentView: View {
     var body: some View {
         Map {
-            Marker("Coffee", coordinate: .coffee)
-            Marker("Restaurant", coordinate: .restaurant)
+            Annotation("Coffee", coordinate: .coffee) {
+                Image(systemName: "cup.and.saucer.fill")
+                    .padding(4)
+                    .foregroundStyle(.white)
+                    .background(.indigo)
+                    .clipShape(.rect(cornerRadius: 4.0))
+            }
+            Annotation("Restaurant", coordinate: .restaurant) {
+                Image(systemName: "fork.knife.circle")
+            }
         }
     }
 }
