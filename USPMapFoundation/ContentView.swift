@@ -18,19 +18,52 @@ extension CLLocationCoordinate2D {
     }
 }
 
+enum MapOptions: String, Identifiable, CaseIterable {
+    case standard
+    case hybrid
+    case imagery
+    
+    var id: String { self.rawValue }
+    
+    var mapStyle: MapStyle {
+        switch self {
+        case .standard:
+            return .standard
+        case .hybrid:
+            return .hybrid
+        case .imagery:
+            return .imagery
+        }
+    }
+}
+
 struct ContentView: View {
+    @State private var selectedMapOption: MapOptions = .standard
+    
     var body: some View {
-        Map {
-            Annotation("Coffee", coordinate: .coffee) {
-                Image(systemName: "cup.and.saucer.fill")
-                    .padding(4)
-                    .foregroundStyle(.white)
-                    .background(.indigo)
-                    .clipShape(.rect(cornerRadius: 4.0))
+        ZStack(alignment: .top) {
+            Map {
+                Annotation("Coffee", coordinate: .coffee) {
+                    Image(systemName: "cup.and.saucer.fill")
+                        .padding(4)
+                        .foregroundStyle(.white)
+                        .background(.indigo)
+                        .clipShape(.rect(cornerRadius: 4.0))
+                }
+                Annotation("Restaurant", coordinate: .restaurant) {
+                    Image(systemName: "fork.knife.circle")
+                }
             }
-            Annotation("Restaurant", coordinate: .restaurant) {
-                Image(systemName: "fork.knife.circle")
+            .mapStyle(selectedMapOption.mapStyle)
+            
+            Picker("Map Styles", selection: $selectedMapOption) {
+                ForEach(MapOptions.allCases) { mapOption in
+                    Text(mapOption.rawValue.capitalized).tag(mapOption)
+                }
             }
+            .pickerStyle(.segmented)
+            .background(.white)
+            .padding()
         }
     }
 }
