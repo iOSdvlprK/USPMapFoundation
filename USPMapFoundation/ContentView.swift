@@ -8,6 +8,19 @@
 import SwiftUI
 import MapKit
 
+@MainActor class LocationManager {
+    static let shared = LocationManager()
+    let manager: CLLocationManager
+    
+    init() {
+        self.manager = CLLocationManager()
+        
+        if self.manager.authorizationStatus == .notDetermined {
+            self.manager.requestWhenInUseAuthorization()
+        }
+    }
+}
+
 extension CLLocationCoordinate2D {
     static var coffee: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: 30.011180, longitude: -95.512560)
@@ -38,6 +51,7 @@ enum MapOptions: String, Identifiable, CaseIterable {
 }
 
 struct ContentView: View {
+    private var locationManager = LocationManager.shared
     @State private var selectedMapOption: MapOptions = .standard
     
     var body: some View {
@@ -53,6 +67,8 @@ struct ContentView: View {
                 Annotation("Restaurant", coordinate: .restaurant) {
                     Image(systemName: "fork.knife.circle")
                 }
+                
+                UserAnnotation()
             }
             .mapStyle(selectedMapOption.mapStyle)
             
