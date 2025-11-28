@@ -9,7 +9,8 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
-    private var locationManager = LocationManager.shared
+    @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
+    @State private var locationManager = LocationManager.shared
     @State private var selectedMapOption: MapOptions = .standard
     
     var body: some View {
@@ -29,6 +30,11 @@ struct ContentView: View {
                 UserAnnotation()
             }
             .mapStyle(selectedMapOption.mapStyle)
+            .onChange(of: locationManager.region) {
+                withAnimation {
+                    position = .region(locationManager.region)
+                }
+            }
             
             Picker("Map Styles", selection: $selectedMapOption) {
                 ForEach(MapOptions.allCases) { mapOption in
