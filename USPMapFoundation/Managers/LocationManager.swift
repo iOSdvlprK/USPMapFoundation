@@ -20,8 +20,9 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         manager.desiredAccuracy = kCLLocationAccuracyBest
         if self.manager.authorizationStatus == .notDetermined {
             self.manager.requestWhenInUseAuthorization()
-            self.manager.requestLocation()
         }
+        
+        self.manager.requestLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
