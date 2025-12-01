@@ -15,7 +15,7 @@ struct ContentView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            Map {
+            Map(position: $position) {
                 Annotation("Coffee", coordinate: .coffee) {
                     Image(systemName: "cup.and.saucer.fill")
                         .padding(4)
