@@ -44,6 +44,25 @@ struct ContentView: View {
             .pickerStyle(.segmented)
             .background(.white)
             .padding()
+            
+            VStack {
+                Spacer()
+                HStack {
+                    Button("Coffee") {
+                        withAnimation {
+                            position = .region(.coffee)
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.brown)
+                    Button("Restaurant") {
+                        withAnimation {
+                            position = .region(.restaurant)
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+            }
         }
     }
 }
