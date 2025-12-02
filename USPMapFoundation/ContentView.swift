@@ -29,13 +29,18 @@ struct ContentView: View {
                 
                 UserAnnotation()
             }
+            .mapControls {
+                MapUserLocationButton()
+                MapCompass()
+                MapScaleView()
+            }
             .mapStyle(selectedMapOption.mapStyle)
             .onChange(of: locationManager.region) {
                 withAnimation {
                     position = .region(locationManager.region)
                 }
             }
-            
+            /*
             Picker("Map Styles", selection: $selectedMapOption) {
                 ForEach(MapOptions.allCases) { mapOption in
                     Text(mapOption.rawValue.capitalized).tag(mapOption)
@@ -43,7 +48,7 @@ struct ContentView: View {
             }
             .pickerStyle(.segmented)
             .background(.white)
-            .padding()
+            .padding([.top], 60) */
             
             VStack {
                 Spacer()
